@@ -5,15 +5,18 @@ import guru.springframework.sfgrecipeapp.model.enums.Difficulty;
 import guru.springframework.sfgrecipeapp.repositories.CategoryRepository;
 import guru.springframework.sfgrecipeapp.repositories.RecipeRepository;
 import guru.springframework.sfgrecipeapp.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Component
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
     private final RecipeRepository recipeRepository;
@@ -27,11 +30,14 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     }
 
     @Override
+    @Transactional // Create a transaction around this method, everything will happen in same transactional context
     public void onApplicationEvent(ContextRefreshedEvent event) {
         recipeRepository.saveAll(addRecipes());
     }
 
     private List<Recipe> addRecipes() {
+        log.debug("Adding recipes..");
+
         List<Recipe> recipes = new ArrayList<>(2);
 
         //get UOMs
