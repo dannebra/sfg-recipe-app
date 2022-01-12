@@ -36,7 +36,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     }
 
     private List<Recipe> addRecipes() {
-        log.debug("Adding recipes..");
+        log.info("Adding recipes..");
 
         List<Recipe> recipes = new ArrayList<>(2);
 

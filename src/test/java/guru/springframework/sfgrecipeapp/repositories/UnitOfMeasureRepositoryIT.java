@@ -1,7 +1,6 @@
 package guru.springframework.sfgrecipeapp.repositories;
 
 import guru.springframework.sfgrecipeapp.model.UnitOfMeasure;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
