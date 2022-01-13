@@ -20,4 +20,9 @@ public class RecipeController {
 
         return "recipe/show";
     }
+
+    @RequestMapping("/recipe/new")
+    public String newRecipe(Model model) {
+        return null;
+    }
 }
