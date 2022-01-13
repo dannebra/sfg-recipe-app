@@ -61,4 +61,12 @@ public class RecipeServiceImpl implements RecipeService {
         log.info("Saved recipe, id: :" + savedRecipe.getId());
         return recipeToRecipeCommand.convert(savedRecipe);
     }
+
+    @Override
+    @Transactional // transactional due to conversion outside scope, any lazy loaded loaded properties would not work
+    public RecipeCommand findCommandById(Long id) {
+        return recipeToRecipeCommand.convert(findById(id));
+    }
+
+
 }

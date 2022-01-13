@@ -1,5 +1,7 @@
 package guru.springframework.sfgrecipeapp.service;
 
+import guru.springframework.sfgrecipeapp.converters.RecipeCommandToRecipe;
+import guru.springframework.sfgrecipeapp.converters.RecipeToRecipeCommand;
 import guru.springframework.sfgrecipeapp.model.Recipe;
 import guru.springframework.sfgrecipeapp.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,10 +23,16 @@ class RecipeServiceImplTest {
     @Mock
     RecipeRepository recipeRepository;
 
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
+
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
+
     @BeforeEach
     void setUp() {
         openMocks(this);
-        recipeService = new RecipeServiceImpl(recipeRepository);
+        recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
     }
 
     @Test
