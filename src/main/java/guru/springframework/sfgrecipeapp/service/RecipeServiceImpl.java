@@ -1,6 +1,8 @@
 package guru.springframework.sfgrecipeapp.service;
 
 import guru.springframework.sfgrecipeapp.commands.RecipeCommand;
+import guru.springframework.sfgrecipeapp.converters.RecipeCommandToRecipe;
+import guru.springframework.sfgrecipeapp.converters.RecipeToRecipeCommand;
 import guru.springframework.sfgrecipeapp.model.Recipe;
 import guru.springframework.sfgrecipeapp.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -15,9 +17,15 @@ import java.util.Set;
 @Service
 public class RecipeServiceImpl implements RecipeService {
     private final RecipeRepository recipeRepository;
+    private final RecipeCommandToRecipe recipeCommandToRecipe;
+    private final RecipeToRecipeCommand recipeToRecipeCommand;
 
-    public RecipeServiceImpl(RecipeRepository recipeRepository) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository,
+                             RecipeCommandToRecipe recipeCommandToRecipe,
+                             RecipeToRecipeCommand recipeToRecipeCommand) {
         this.recipeRepository = recipeRepository;
+        this.recipeCommandToRecipe = recipeCommandToRecipe;
+        this.recipeToRecipeCommand = recipeToRecipeCommand;
     }
 
     @Override
@@ -44,6 +52,13 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     @Transactional
     public RecipeCommand saveRecipeCommand(RecipeCommand command) {
-        return null;
+        Recipe detachedRecipe = recipeCommandToRecipe.convert(command);
+        if (detachedRecipe == null) {
+            throw new IllegalArgumentException("Recipe can not be null.");
+        }
+
+        Recipe savedRecipe = recipeRepository.save(detachedRecipe);
+        log.info("Saved recipe, id: :" + savedRecipe.getId());
+        return recipeToRecipeCommand.convert(savedRecipe);
     }
 }
