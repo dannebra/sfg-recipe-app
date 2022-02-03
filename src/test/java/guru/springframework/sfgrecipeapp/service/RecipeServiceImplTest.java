@@ -63,6 +63,13 @@ class RecipeServiceImplTest {
         assertNotNull(returnedRecipe);
         verify(recipeRepository).findById(anyLong());
         verify(recipeRepository, never()).findAll();
+    }
 
+    @Test
+    public void testDeleteById() throws Exception {
+        Long id = 2L;
+        recipeService.deleteById(id);
+
+        verify(recipeRepository).deleteById(anyLong());
     }
 }
