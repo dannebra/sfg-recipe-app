@@ -2,12 +2,15 @@ package guru.springframework.sfgrecipeapp.model;
 
 import guru.springframework.sfgrecipeapp.model.enums.Difficulty;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class Recipe {
     @Id

@@ -1,6 +1,8 @@
 package guru.springframework.sfgrecipeapp.controllers;
 
 import guru.springframework.sfgrecipeapp.commands.IngredientCommand;
+import guru.springframework.sfgrecipeapp.commands.RecipeCommand;
+import guru.springframework.sfgrecipeapp.commands.UnitOfMeasureCommand;
 import guru.springframework.sfgrecipeapp.service.IngredientService;
 import guru.springframework.sfgrecipeapp.service.RecipeService;
 import guru.springframework.sfgrecipeapp.service.UnitOfMeasureService;
@@ -61,6 +63,22 @@ public class IngredientController {
         log.debug("Saved ingrediente id: " + savedCommand.getId());
 
         return "redirect:/recipe/" + savedCommand.getRecipeId() + "/ingredient/" + savedCommand.getId() + "/show";
+    }
+
+    @GetMapping
+    @RequestMapping("/recipe/{recipeId}/ingredient/new")
+    public String newRecipe(@PathVariable String recipeId, Model model) {
+        Long recipeid = Long.valueOf(recipeId);
+        RecipeCommand recipeCommand = recipeService.findCommandById(recipeid);
+
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(recipeid);
+        model.addAttribute("ingredient", ingredientCommand);
+
+        ingredientCommand.setUom(new UnitOfMeasureCommand());
+        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
+
+        return "recipe/ingredient/ingredientform";
     }
 
 }
