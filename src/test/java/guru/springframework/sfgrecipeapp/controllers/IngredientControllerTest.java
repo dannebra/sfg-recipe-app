@@ -2,6 +2,7 @@ package guru.springframework.sfgrecipeapp.controllers;
 
 import guru.springframework.sfgrecipeapp.commands.IngredientCommand;
 import guru.springframework.sfgrecipeapp.commands.RecipeCommand;
+import guru.springframework.sfgrecipeapp.model.Recipe;
 import guru.springframework.sfgrecipeapp.service.IngredientService;
 import guru.springframework.sfgrecipeapp.service.RecipeService;
 import guru.springframework.sfgrecipeapp.service.UnitOfMeasureService;
@@ -98,8 +99,8 @@ class IngredientControllerTest {
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("id", "")
                 .param("description", "DESCRIPTION"))
-        .andExpect(status().is3xxRedirection())
-        .andExpect(view().name("redirect:/recipe/2/ingredient/3/show"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/recipe/2/ingredient/3/show"));
     }
 
     @Test
@@ -117,5 +118,14 @@ class IngredientControllerTest {
                 .andExpect(model().attributeExists("uomList"));
 
         verify(recipeService).findCommandById(anyLong());
+    }
+
+    @Test
+    public void testDeleteIngredient() throws Exception {
+        mockMvc.perform(get("/recipe/1/ingredient/2/delete"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/recipe/1/ingredients"));
+
+        verify(ingredientService).deleteById(anyLong(), anyLong());
     }
 }
