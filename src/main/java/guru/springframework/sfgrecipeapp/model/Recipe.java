@@ -30,7 +30,7 @@ public class Recipe {
     private Set<Ingredient> ingredients = new HashSet<>();
 
     @Lob
-    private Byte[] image;
+    private Byte[] image; // Recommended from hibernate to used boxed object since it can be null
 
     @Enumerated(value = EnumType.STRING)
     private Difficulty difficulty;

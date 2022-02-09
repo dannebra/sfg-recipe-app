@@ -1,7 +1,6 @@
 package guru.springframework.sfgrecipeapp.service;
 
 import guru.springframework.sfgrecipeapp.commands.IngredientCommand;
-import guru.springframework.sfgrecipeapp.model.Ingredient;
 
 public interface IngredientService {
 

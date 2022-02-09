@@ -2,7 +2,6 @@ package guru.springframework.sfgrecipeapp.controllers;
 
 import guru.springframework.sfgrecipeapp.commands.IngredientCommand;
 import guru.springframework.sfgrecipeapp.commands.RecipeCommand;
-import guru.springframework.sfgrecipeapp.model.Recipe;
 import guru.springframework.sfgrecipeapp.service.IngredientService;
 import guru.springframework.sfgrecipeapp.service.RecipeService;
 import guru.springframework.sfgrecipeapp.service.UnitOfMeasureService;
