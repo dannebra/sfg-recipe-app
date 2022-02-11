@@ -1,6 +1,7 @@
 package guru.springframework.sfgrecipeapp.controllers;
 
 import guru.springframework.sfgrecipeapp.commands.RecipeCommand;
+import guru.springframework.sfgrecipeapp.exceptions.NotFoundException;
 import guru.springframework.sfgrecipeapp.model.Recipe;
 import guru.springframework.sfgrecipeapp.service.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
@@ -84,5 +85,14 @@ class RecipeControllerTest {
                 .andExpect(view().name("redirect:/"));
 
         verify(recipeService).deleteById(anyLong());
+    }
+
+    @Test
+    public void testRecipeNotFound() throws Exception {
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+        mockMvc.perform(get("/recipe/1/show"))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("404error"));
     }
 }

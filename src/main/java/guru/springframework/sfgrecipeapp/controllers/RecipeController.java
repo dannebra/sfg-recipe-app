@@ -1,11 +1,14 @@
 package guru.springframework.sfgrecipeapp.controllers;
 
 import guru.springframework.sfgrecipeapp.commands.RecipeCommand;
+import guru.springframework.sfgrecipeapp.exceptions.NotFoundException;
 import guru.springframework.sfgrecipeapp.service.RecipeService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Slf4j
 @Controller
@@ -50,5 +53,17 @@ public class RecipeController {
         recipeService.deleteById(Long.valueOf(id));
 
         return "redirect:/";
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND) // Takes higher precedence than notation in exception class
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView handleNotFound(Exception exception) {
+        log.error("Not found exception thrown! " + exception.getMessage());
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("404error");
+        modelAndView.addObject("exception", exception);
+
+        return modelAndView;
     }
 }
