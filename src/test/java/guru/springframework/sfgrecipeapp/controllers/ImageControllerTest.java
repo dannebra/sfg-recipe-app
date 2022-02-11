@@ -40,7 +40,17 @@ class ImageControllerTest {
         openMocks(this);
         imageController = new ImageController(recipeService, imageService);
 
-        mockMvc = MockMvcBuilders.standaloneSetup(imageController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(imageController)
+                .setControllerAdvice(ExceptionHandlerController.class)
+                .build();
+    }
+
+    @Test
+    void testBadRequestInput() throws Exception {
+        mockMvc.perform(get("/recipe/asdf/image"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400error"))
+                .andExpect(model().attributeExists("exception"));
     }
 
     @Test
